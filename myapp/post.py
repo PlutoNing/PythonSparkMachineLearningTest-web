@@ -12,13 +12,12 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 # from .mylib import myrender, myrenderw
 from django.conf import settings
 from myapp.models import Pac
-from myapp.models import Pac
+
 from myapp.pcap2csv import pcap2csv
 from myapp.csvProcess import *
 from myapp.predict import predict
 from myapp.utils import clear_model
-
-
+from myapp.views import *
 
 
 def post(request):
@@ -37,10 +36,9 @@ def post(request):
 
 
 def getpost(request):
-
     global result_dict
 
-    contacts=getEmptyPack()
+    contacts = getEmptyPack()
     if 'page' not in request.GET:
         if 'upload' in request.FILES:
             f = request.FILES.get('upload')
@@ -57,6 +55,7 @@ def getpost(request):
 
             csvProcess()  # 这里把csv转到数据库和libsvm
             result_dict = predict()  # 这里分析每种攻击类型的比率
+            save_result(result_dict)
             packs = Pac.objects.all()
             paginator = Paginator(packs, 10)
             list = request.GET.get('page')
@@ -69,6 +68,7 @@ def getpost(request):
                 contacts = paginator.page(paginator.num_pages)
     else:
         packs = Pac.objects.all()
+        result_dict=get_result()
         paginator = Paginator(packs, 10)
         list = request.GET.get('page')
         try:
@@ -116,10 +116,52 @@ def getEmptyDict():
 
 
 def clear_env():
-    libsvmDir = r"C:\Users\pluto\PycharmProjects\djangoProject\libsvm\\"
-    csvDir = r"C:\Users\pluto\PycharmProjects\djangoProject\CsvDir\\"
-    pcapDir = r"C:\Users\pluto\PycharmProjects\djangoProject\uploads\\"
-    del_file(libsvmDir)
-    del_file(csvDir)
-    del_file(pcapDir)
+    del_file(LIBSVM_DiR)
+    del_file(CSV_DIR)
+    del_file(PCAP_DIR)
     clear_model()
+
+
+def vis(request):
+    return render(request, 'visualize.html')
+
+
+def index(request):
+    HttpResponse = render(request, 'index.html')
+    return HttpResponse
+
+def get_result():
+    dict = {
+        'Benign': 0,
+        'Brute Force -Web': 0,
+        'Bot': 0,
+        'FTP-BruteForce': 0,
+        'DoS attacks-SlowHTTPTest': 0,
+        'DDOS attack-HOIC': 0,
+        'DDOS attack-LOIC-UDP': 0,
+        'Infilteration': 0,
+        'DoS attacks-Slowloris': 0,
+        'DoS attacks-Hulk': 0,
+        'DoS attacks-GoldenEye': 0,
+        'SSH-Bruteforce': 0,
+        'Brute Force -XSS': 0,
+        'SQL Injection': 0
+    }
+
+
+    with open('dict.txt','r') as f:
+
+        lines = f.readlines()
+        for key,line in zip(dict,lines):
+            dict[key] = line
+    return dict
+
+
+
+def save_result(dict):
+    with open('dict.txt', 'w') as f:
+        for key, value in dict.items():
+            f.write(str(value))
+            f.write('\n')
+
+

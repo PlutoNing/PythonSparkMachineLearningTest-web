@@ -65,7 +65,7 @@ def csvtolibsvm():
                 time_list.pop()
                 atime = ' '.join(time_list)
 
-                timeArray = time.strptime(atime, "%m/%d/%Y %H:%M:%S")
+                timeArray = time.strptime(atime, "%d/%m/%Y %H:%M:%S")
                 timeStamp = int(time.mktime(timeArray))
                 line[2] = timeStamp
                 new_line = construct_line(label, line)

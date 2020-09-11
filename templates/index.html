@@ -1,6 +1,7 @@
 <!doctype html>
 <html lang="en">
   <head>
+       {%load static%}
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
@@ -11,7 +12,7 @@
     <link rel="canonical" href="https://getbootstrap.com/docs/4.5/examples/dashboard/">
 
     <!-- Bootstrap core CSS -->
-<link href="../assets/dist/css/bootstrap.css" rel="stylesheet">
+<link href="{%  static 'css/bootstrap.css' %}" rel="stylesheet">
 
     <style>
       .bd-placeholder-img {
@@ -47,63 +48,26 @@
       <div class="sidebar-sticky pt-3">
         <ul class="nav flex-column">
           <li class="nav-item">
-            <a class="nav-link active" href="#">
+            <a class="nav-link active" href="/index/">
               <span data-feather="home"></span>
               算法模型<span class="sr-only">(current)</span>
             </a>
           </li>
+
           <li class="nav-item">
-            <a class="nav-link" href="#">
-              <span data-feather="file"></span>
-              在线捕获
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">
+            <a class="nav-link" href="/post/getpost/?page=1">
               <span data-feather="layers"></span>
               离线分析
             </a>
           </li>
         </ul>
-        <!--
-        <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
-          <span>Saved reports</span>
-          <a class="d-flex align-items-center text-muted" href="#" aria-label="Add a new report">
-            <span data-feather="plus-circle"></span>
-          </a>
-        </h6>
-        <ul class="nav flex-column mb-2">
-          <li class="nav-item">
-            <a class="nav-link" href="#">
-              <span data-feather="file-text"></span>
-              Current month
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">
-              <span data-feather="file-text"></span>
-              Last quarter
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">
-              <span data-feather="file-text"></span>
-              Social engagement
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">
-              <span data-feather="file-text"></span>
-              Year-end sale
-            </a>
-          </li>
-        </ul>-->
+
       </div>
     </nav>
 
     <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-md-4">
       <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-        <h2>随机森林(RandomForest)算法</h2>
+        <h2><a href="/post/vis/">随机森林(RandomForest)算法</a></h2>
         <div class="btn-toolbar mb-2 mb-md-0">
           <div class="btn-group mr-2">
             <button type="button" class="btn btn-sm btn-outline-secondary">Share</button>
@@ -115,45 +79,72 @@
           </button>
         </div>
       </div>
+     <!--<iframe src ="visualize.html" style="width:400px;height:300px"></iframe>-->
+        <img src="{%  static 'images/rf.jpg' %}"  alt="Pulpit rock" width="1066" height="600"></img>
 
-      <canvas class="my-4 w-100" id="myChart" width="900" height="380"></canvas>
-
+      <!--<canvas class="my-4 w-100" id="myChart" width="900" height="380"></canvas>-->
+        <div>
+        <span class="badge badge-light">准确率</span>
+    <div class="progress">
+      <div class="progress-bar" role="progressbar" style="width: 99%;" aria-valuenow="99" aria-valuemin="0" aria-valuemax="100">99.63%</div>
+    </div>
+    <span class="badge badge-light">误报率</span>
+    <div class="progress">
+      <div class="progress-bar" role="progressbar" style="width: 3%;" aria-valuenow="3" aria-valuemin="0" aria-valuemax="100">3.22%</div>
+    </div></div>
       <h2>特征提取</h2>
       <div class="table-responsive">
         <table class="table table-striped table-sm">
           <thead>
             <tr>
-              <th>#</th>
+              <th>序号</th>
               <th>特征名称</th>
               <th>特征解释</th>
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td>1,001</td>
-              <td>Lorem</td>
-              <td>ipsum</td>
-            </tr>
-            <tr>
-              <td>1,002</td>
-              <td>amet</td>
-              <td>consectetur</td>
-            </tr>
-            <tr>
-              <td>1,003</td>
-              <td>Integer</td>
-              <td>nec</td>
-            </tr>
-            
+          <tr><td>1</td><td>Dst Port</td><td>Dst Port</td></tr>
+          <tr><td>2</td><td>Protocol</td><td>协议</td></tr>
+          <tr><td>3</td><td>Timestamp</td><td>时间戳</td></tr>
+          <tr><td>4</td><td>Flow Duration</td><td>流动持续时间</td></tr>
+          <tr><td>5</td><td>Tot Fwd Pkts</td><td>前向总包数</td></tr>
+          <tr><td>6</td><td>Tot Bwd Pkts</td><td> 反向总包数</td></tr>
+          <tr><td>7</td><td>TotLen Fwd Pkts</td><td>正向报文总大小</td></tr>
+          <tr><td>8</td><td>TotLen Bwd Pkts</td><td>反向报文总大小</td></tr>
+          <tr><td>9</td><td>Fwd Pkt Len Max</td><td>正向报文的最大大小</td></tr>
+          <tr><td>10</td><td>Fwd Pkt Len Min </td><td>报文转发的最小尺寸</td></tr>
+          <tr><td>11</td><td>Fwd Pkt Len Mean</td><td>正向报文的平均大小</td></tr>
+          <tr><td>12</td><td>Fwd Pkt Len Std</td><td>数据包的标准偏差大小（正向）</td></tr>
+          <tr><td>13</td><td>Bwd Pkt Len Max</td><td>反向最大包数</td></tr>
+          <tr><td>14</td><td>Bwd Pkt Len Min</td><td>反向最小包数</td></tr>
+          <tr><td>15</td><td>Bwd Pkt Len Mean</td><td>数据包在后向的平均大小</td></tr>
+          <tr><td>16</td><td>Bwd Pkt Len Std</td><td>数据包向后的标准偏差大小</td></tr>
+          <tr><td>17</td><td>Flow Byts/s</td><td>流字节率，即每秒传输的数据包数</td></tr>
+          <tr><td>18</td><td>Flow IAT Mean</td><td>两次流动之间的平均时间</td></tr>
+          <tr><td>19</td><td>Flow IAT Std</td><td>标准偏差时间两流</td></tr>
+          <tr><td>20</td><td>Flow IAT Max</td><td>两次流动之间的最大时间</td></tr>
           </tbody>
         </table>
       </div>
     </main>
   </div>
 </div>
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-      <script>window.jQuery || document.write('<script src="../assets/js/vendor/jquery.slim.min.js"><\/script>')</script><script src="../assets/dist/js/bootstrap.bundle.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.9.0/feather.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.min.js"></script>
-        <script src="dashboard.js"></script></body>
+<script src="{% static 'js/jquery-3.5.1.slim.min.js'%}"
+        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+        crossorigin="anonymous">
+
+</script>
+
+
+     <script>
+          window.jQuery || document.write('<script src="{% static 'js/jquery-3.5.1.slim.min.js'%}">' +
+              '<\/script>')</script>
+
+
+
+
+  <script src="{% static 'js/bootstrap.bundle.js'%}"></script>
+        <script src="{% static 'js/feather.min.js'%}"></script>
+        <script src="{% static 'js/Chart.min.js'%}"></script>
+        <script src="{% static 'js/dashboard.js'%}"></script></body>
 </html>

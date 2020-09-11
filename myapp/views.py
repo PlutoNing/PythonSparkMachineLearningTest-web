@@ -8,7 +8,7 @@ JAR_PATH = r"C:\\Users\pluto\PycharmProjects\djangoProject\java\PCA2CSV2.jar"
 
 
 
-TEST_DATA_PATH = r"file:///C:\\Users\pluto\PycharmProjects\djangoProject\libsvm\\"
+TEST_DATA_PATH = r"file:///C:\\Users\pluto\PycharmProjects\djangoProject\libsvm\\" 
 DATA_PATH = r"C:\\Users\pluto\PycharmProjects\djangoProject\libsvm"
 TEST_MODEL_PATH = r"file:///C:\\Users\pluto\PycharmProjects\djangoProject\model\\"
 TEST_PREDICT_PATH = r"file:///C:\Users\pluto\PycharmProjects\djangoProject\predict"

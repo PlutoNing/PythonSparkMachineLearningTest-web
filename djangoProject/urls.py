@@ -15,12 +15,14 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from myapp.post import getpost, post
+from myapp.post import getpost, post, vis, index
 from myapp.utils import *
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('post/', post),
     path('post/getpost/', getpost),
-    path('test/',test),
+    path('post/vis/',vis),
+    path('index/',index),
+
 ]
