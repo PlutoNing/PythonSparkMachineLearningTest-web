@@ -1,0 +1,194 @@
+<!doctype html>
+<html lang="en">
+  <head>
+       {%load static%}
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
+    <meta name="generator" content="Jekyll v4.0.1">
+    <title>网络加密流量恶意行为检测工具</title>
+
+      <!--<link rel="canonical" href="https://getbootstrap.com/docs/4.5/examples/dashboard/">-->
+
+    <!-- Bootstrap core CSS -->
+<!--<link href="../assets/dist/css/bootstrap.css"  rel="stylesheet">-->
+      <link href="{%  static 'css/bootstrap.css' %}" rel="stylesheet">
+
+
+
+    <style>
+      .bd-placeholder-img {
+        font-size: 1.125rem;
+        text-anchor: middle;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+      }
+
+      @media (min-width: 768px) {
+        .bd-placeholder-img-lg {
+          font-size: 3.5rem;
+        }
+      }
+    </style>
+    <!-- Custom styles for this template -->
+    <link href="{%  static 'css/dashboard.css' %}" rel="stylesheet">
+  </head>
+  <body>
+  <nav class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
+  <a class="navbar-brand col-md-3 col-lg-2 mr-0 px-3">网络加密流量恶意行为检测</a>
+  <button class="navbar-toggler position-absolute d-md-none collapsed" type="button" data-toggle="collapse" data-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+ 
+</nav>
+
+<div class="container-fluid">
+  <div class="row">
+    <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
+      <div class="sidebar-sticky pt-3">
+        <ul class="nav flex-column">
+          <li class="nav-item">
+            <a class="nav-link" href="#">
+              <span data-feather="home"></span>
+              算法模型<span class="sr-only">(current)</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">
+              <span data-feather="file"></span>
+              在线捕获
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link active" href="#">
+              <span data-feather="layers"></span>
+              离线分析
+            </a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+
+    <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-md-4">
+      <div class="alert alert-light" role="alert">
+        <h4>请上传需要分析的PCAP文件：</h4>
+      </div>
+      <form  name="myinput" action="/post/getpost/" method="post" enctype="multipart/form-data">
+      <div >
+        <div >
+          <input type="file" name='upload'  >
+          <label >选择文件...</label>
+        </div>
+        <div >
+          <button classtype="button" class="btn btn-light">提交</button>
+        </div>
+      </div>
+
+        {% csrf_token %}
+      </form>
+    <div class="alert alert-light" role="alert">
+      <h4>分析结果：</h4>
+    </div>
+    <span class="badge badge-light">准确率</span>
+    <div class="progress">
+      <div class="progress-bar" role="progressbar" style="width: 99%;" aria-valuenow="99" aria-valuemin="0" aria-valuemax="100">99%</div>
+    </div>
+    <span class="badge badge-light">误报率</span>
+    <div class="progress">
+      <div class="progress-bar" role="progressbar" style="width: 25%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">25%</div>
+    </div>
+      <div class="table-responsive">
+        <table class="table table-striped table-sm">
+        <caption>数据包信息</caption>
+
+            <thead>
+            <tr>
+              <th>Time</th><th>Source IP</th><th>Source Port</th><th>Dst IP</th><th>Dst Port</th>
+              <th>Protocol</th><th>Length</th><th>Info</th>
+
+            </tr>
+            </thead>
+            <tbody>
+            {% if packs%}
+            {% for pack in packs %}
+            <tr>
+              <td>{{pack.time}}</td><td>{{pack.srcIP}}</td><td>{{pack.srcPort}}</td><td>{{pack.dstIP}}</td>
+              <td>{{pack.dstPort}}</td><td>{{pack.protocol}}</td><td>{{pack.length}}</td><td>{{pack.info}}</td>
+            </tr>
+
+            {% endfor %}
+            {% endif %}
+            </tbody>
+          </table>
+      </div>
+  <!--zheli shi pagenator-->
+      <div class="pagination">
+    <span class = "step.links">
+        {% if packs.has_previous %}
+        <a href = "?page={{packs.previous_page_number}}">上一页</a>
+        {% endif %}
+        <span class= "current">
+            Page{{packs.number}}of{{packs.paginator.num_pages}}
+
+        </span>
+        {% if packs.has_next %}
+        <a href="?page={{packs.next_page_number}}">下一页</a>
+        {% endif %}
+    </span>
+      </div>
+
+    <!--zheli shi  fenxi bilv-->
+
+        <table class="table table-striped table-sm">
+        <caption>每种攻击类型比例</caption>
+
+            <thead>
+            <tr>
+              <th>Benign</th><th>Brute Force -Web</th><th>Bot</th><th>FTP-BruteForce</th><th>DoS attacks-SlowHTTPTest</th><th>DDOS attack-HOIC</th>
+              <th>DDOS attack-LOIC-UDP</th><th>Infilteration</th><th>DoS attacks-Slowloris</th> <th>DoS attacks-Hulk</th>
+                <th>DoS attacks-GoldenEye</th>
+                <th>SSH-Bruteforce</th><th>Brute Force -XSS</th><th>SQL Injection</th>
+
+            </tr>
+            </thead>
+            <tbody>
+            {% if dict %}
+
+            <tr>
+
+
+
+            {% for key, value in dict.items %}
+           <td>{{ value }}</td>
+                {% endfor %}
+
+            </tr>
+
+
+            {% endif %}
+            </tbody>
+          </table>
+
+    </main>
+  </div>
+</div>
+<script src="{% static 'js/jquery-3.5.1.slim.min.js'%}"
+        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+        crossorigin="anonymous">
+
+</script>
+      <script>
+          window.jQuery || document.write('<script src="{% static 'js/jquery-3.5.1.slim.min.js'%}">' +
+              '<\/script>')</script>
+
+  <script src="{% static 'js/bootstrap.bundle.js'%}"></script>
+
+        <script src="{% static 'js/feather.min.js'%}"></script>
+        <script src="{% static 'js/Chart.min.js'%}"></script>
+        <script src="{% static 'js/dashboard.js'%}"></script>
+
+  </body>
+</html>
